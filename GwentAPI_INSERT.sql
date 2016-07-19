@@ -1,3 +1,5 @@
+USE `gwentapi`;
+
 #Types
 INSERT INTO Types
 (id, name)

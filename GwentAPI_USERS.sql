@@ -1,3 +1,5 @@
+USE `gwentapi`;
+
 #User that customers will use
 DROP USER 'client'@'localhost';
 DROP USER 'client'@'127.0.0.1';
