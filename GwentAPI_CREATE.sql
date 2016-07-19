@@ -22,7 +22,7 @@ DROP TABLE IF EXISTS Patches;
 CREATE TABLE IF NOT EXISTS Illustrators (
 	idIllustrator INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
-    id VARCHAR(50) NOT NULL,
+    id VARCHAR(50) BINARY NOT NULL,
     INDEX Illustrators_id_index(id)
 )
 ENGINE=InnoDB;
@@ -41,7 +41,7 @@ UNIQUE (id);
 CREATE TABLE IF NOT EXISTS Types (
 	idType INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(15) NOT NULL,
-    id VARCHAR(15) NOT NULL,
+    id VARCHAR(15) BINARY NOT NULL,
     INDEX Types_id_index(id)
 )
 ENGINE=InnoDB;
@@ -60,7 +60,7 @@ UNIQUE (id);
 CREATE TABLE IF NOT EXISTS Rows (
 	idRow INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(6) NOT NULL,
-    id VARCHAR(6) NOT NULL,
+    id VARCHAR(6) BINARY NOT NULL,
     INDEX Rows_id_index(id)
 )
 ENGINE=InnoDB;
@@ -80,7 +80,7 @@ UNIQUE (id);
 CREATE TABLE IF NOT EXISTS Factions (
 	idFaction INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(20) NOT NULL,
-    id VARCHAR(20) NOT NULL,
+    id VARCHAR(20) BINARY NOT NULL,
     INDEX Factions_id_index(id)
 )
 ENGINE=InnoDB;
@@ -100,7 +100,7 @@ UNIQUE (id);
 CREATE TABLE IF NOT EXISTS Rarities (
 	idRarity INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(10) NOT NULL,
-    id VARCHAR(10) NOT NULL,
+    id VARCHAR(10) BINARY NOT NULL,
     INDEX Rarities_id_index(id)
 )
 ENGINE=InnoDB;
@@ -119,7 +119,7 @@ UNIQUE (id);
 #Table containing the different glyphs
 CREATE TABLE IF NOT EXISTS Glyphs (
 	idGlyph INT PRIMARY KEY AUTO_INCREMENT,
-	id VARCHAR(10) NOT NULL,
+	id VARCHAR(10) BINARY NOT NULL,
     name VARCHAR(10) NOT NULL,
     isWeatherGlyph BOOL NOT NULL DEFAULT FALSE,
     text VARCHAR(70) NOT NULL,
@@ -143,7 +143,7 @@ UNIQUE (id);
 #Table containing the different card abilities
 CREATE TABLE IF NOT EXISTS Abilities (
 	idAbility INT PRIMARY KEY AUTO_INCREMENT,
-	id VARCHAR(30) NOT NULL,
+	id VARCHAR(30) BINARY NOT NULL,
     name VARCHAR(30) NOT NULL,
     description VARCHAR(100),
     INDEX Abilities_id_index(id)
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS Patches(
     version VARCHAR(10) NOT NULL,
     releaseDate TIMESTAMP NOT NULL,
     changelog VARCHAR(500),
-    id VARCHAR(10) NOT NULL,
+    id VARCHAR(10) BINARY NOT NULL,
     INDEX Patches_id_index(id)
 )
 ENGINE=InnoDB;
@@ -200,7 +200,7 @@ CREATE TABLE IF NOT EXISTS Cards(
     idIllustrator INT,
     idType INT NOT NULL,
     idAbility INT,
-	id VARCHAR(50) NOT NULL,
+	id VARCHAR(50) BINARY NOT NULL,
 	name VARCHAR(50) NOT NULL,
     strength INT,
     text VARCHAR(255),
