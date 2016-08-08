@@ -4,10 +4,12 @@ USE `gwentapi`;
 
 
 # Drop of all tables for quick testing
+DROP TABLE IF EXISTS Artworks;
+DROP TABLE IF EXISTS Categories;
 DROP TABLE IF EXISTS CardsRows;
 DROP TABLE IF EXISTS CardsSubTypes;
 DROP TABLE IF EXISTS Cards;
-DROP TABLE IF EXISTS Illustrators;
+DROP TABLE IF EXISTS Artists;
 DROP TABLE IF EXISTS Types;
 DROP TABLE IF EXISTS Rows;
 DROP TABLE IF EXISTS Factions;
@@ -19,22 +21,21 @@ DROP TABLE IF EXISTS Patches;
 
 
 #Table containing the authors for cards artwork
-CREATE TABLE IF NOT EXISTS Illustrators (
-	idIllustrator INT PRIMARY KEY AUTO_INCREMENT,
+CREATE TABLE IF NOT EXISTS Artists (
+	idArtist INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(50) NOT NULL,
     id VARCHAR(50) BINARY NOT NULL,
-    INDEX Illustrators_id_index(id)
+    INDEX Artists_id_index(id)
 )
 ENGINE=InnoDB;
 
-ALTER TABLE Illustrators
-ADD CONSTRAINT Illustrators_name_UK
+ALTER TABLE Artists
+ADD CONSTRAINT Artists_name_UK
 UNIQUE (name);
 
-ALTER TABLE Illustrators
-ADD CONSTRAINT Illustrators_id_UK
+ALTER TABLE Artists
+ADD CONSTRAINT Artists_id_UK
 UNIQUE (id);
-
 
 
 #Table containing the different card types
@@ -197,7 +198,6 @@ CREATE TABLE IF NOT EXISTS Cards(
 	idCard INT PRIMARY KEY AUTO_INCREMENT,
 	idRarity INT NOT NULL,
     idFaction INT NOT NULL,
-    idIllustrator INT,
     idType INT NOT NULL,
     idAbility INT,
 	id VARCHAR(50) BINARY NOT NULL,
@@ -224,10 +224,6 @@ FOREIGN KEY (idRarity) REFERENCES Rarities (idRarity);
 Alter TABLE Cards
 ADD CONSTRAINT Cards_Factions_FK
 FOREIGN KEY (idFaction) REFERENCES Factions (idFaction);
-
-Alter TABLE Cards
-ADD CONSTRAINT Cards_Illustrators_FK
-FOREIGN KEY (idIllustrator) REFERENCES Illustrators (idIllustrator);
 
 Alter TABLE Cards
 ADD CONSTRAINT Cards_Types_FK
@@ -279,3 +275,43 @@ FOREIGN KEY (idCard) REFERENCES Cards (idCard);
 ALTER Table CardsRows
 ADD CONSTRAINT CardsRows_Rows_FK
 FOREIGN KEY (idRow) REFERENCES Rows (idRow);
+
+
+#Table containing Categories giving additional information on Artworks
+CREATE TABLE IF NOT EXISTS Categories (
+	idCategory INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL
+)
+ENGINE=InnoDB;
+
+Alter Table Categories
+ADD CONSTRAINT Categories_name_UK
+UNIQUE (name);
+
+
+#Table containing the Artworks for every cards
+CREATE TABLE IF NOT EXISTS Artworks (
+	idArtwork INT PRIMARY KEY AUTO_INCREMENT,
+	idCard INT NOT NULL,
+    idCategory INT NOT NULL,
+	idArtist INT,
+    isAlternative BOOL NOT NULL DEFAULT FALSE,
+    filename VARCHAR(255) NOT NULL
+)
+ENGINE=InnoDB;
+
+ALTER Table Artworks
+ADD CONSTRAINT Artworks_filename_UK
+UNIQUE (filename);
+
+ALTER Table Artworks
+ADD CONSTRAINT Artworks_Cards_FK
+FOREIGN KEY (idCard) REFERENCES Cards (idCard);
+
+ALTER Table Artworks
+ADD CONSTRAINT Artworks_Artists_FK
+FOREIGN KEY (idArtist) REFERENCES Artists (idArtist);
+
+ALTER Table Artworks
+ADD CONSTRAINT Artworks_Categories_FK
+FOREIGN KEY (idCategory) REFERENCES Categories (idCategory);

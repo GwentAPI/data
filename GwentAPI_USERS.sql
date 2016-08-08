@@ -27,7 +27,15 @@ ON gwentapi.glyphs
 TO 'client'@'localhost';
 
 GRANT SELECT
-ON gwentapi.illustrators
+ON gwentapi.artists
+TO 'client'@'localhost';
+
+GRANT SELECT
+ON gwentapi.artworks
+TO 'client'@'localhost';
+
+GRANT SELECT
+ON gwentapi.categories
 TO 'client'@'localhost';
 
 GRANT SELECT
@@ -71,7 +79,15 @@ ON gwentapi.glyphs
 TO 'client'@'127.0.0.1';
 
 GRANT SELECT
-ON gwentapi.illustrators
+ON gwentapi.artists
+TO 'client'@'127.0.0.1';
+
+GRANT SELECT
+ON gwentapi.artworks
+TO 'client'@'127.0.0.1';
+
+GRANT SELECT
+ON gwentapi.categories
 TO 'client'@'127.0.0.1';
 
 GRANT SELECT
