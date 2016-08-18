@@ -243,7 +243,7 @@ Use Once: Transform all loyal cards with Swap into Dol Blathanna Archers',
 'Plague
 When Played: Remove weakest Unit(s) on Battlefield' , null),
 
-('eredin', 'Eredin', (SELECT idRarity FROM Rarities WHERE name = 'Legendary'), (SELECT idFaction FROM Factions WHERE name = 'Monsters'), (SELECT idType FROM Types WHERE name = 'Leader'), (SELECT idAbility FROM Abilities WHERE name = 'Summon'), null,
+('eredin-hero', 'Eredin (Hero)', (SELECT idRarity FROM Rarities WHERE name = 'Legendary'), (SELECT idFaction FROM Factions WHERE name = 'Monsters'), (SELECT idType FROM Types WHERE name = 'Leader'), (SELECT idAbility FROM Abilities WHERE name = 'Summon'), null,
 'Summon: Auberon\'s Assassin
 Use Once: Eredin steps onto the Battlefield' , null),
 
@@ -492,7 +492,7 @@ Passive: Keep on the Battlefield after each round.',
 'Weatherbound: Frost
 Passive: Whenever a Frost glyph is placed, play this card from your Deck, Hand, or Graveyard and double its Strength. Send this card to the Graveyard when the Frost glyph is removed.' , null),
 
-('eredin-hero', 'Eredin (Hero)', (SELECT idRarity FROM Rarities WHERE name = 'Legendary'), (SELECT idFaction FROM Factions WHERE name = 'Monsters'), (SELECT idType FROM Types WHERE name = 'Hero'), null, 15, null,
+('eredin', 'Eredin', (SELECT idRarity FROM Rarities WHERE name = 'Legendary'), (SELECT idFaction FROM Factions WHERE name = 'Monsters'), (SELECT idType FROM Types WHERE name = 'Hero'), null, 15, null,
 'Have some dignity. You know how this will end.');
 
 
@@ -777,6 +777,8 @@ CONCAT((SELECT id FROM Cards WHERE name = 'Eithne'), '_small.png')),
 CONCAT((SELECT id FROM Cards WHERE name = 'Epidemic'), '_small.png')),
 ((SELECT idCard FROM Cards WHERE name = 'Eredin') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
 CONCAT((SELECT id FROM Cards WHERE name = 'Eredin'), '_small.png')),
+((SELECT idCard FROM Cards WHERE name = 'Eredin (Hero)') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
+CONCAT((SELECT id FROM Cards WHERE name = 'Eredin (Hero)'), '_small.png')),
 ((SELECT idCard FROM Cards WHERE name = 'Foglet') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
 CONCAT((SELECT id FROM Cards WHERE name = 'Foglet'), '_small.png')),
 ((SELECT idCard FROM Cards WHERE name = 'Foltest') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
@@ -883,6 +885,8 @@ CONCAT((SELECT id FROM Cards WHERE name = 'Vrihedd Vanguard'), '_small.png')),
 CONCAT((SELECT id FROM Cards WHERE name = 'Whale from the Cave of Dreams'), '_small.png')),
 ((SELECT idCard FROM Cards WHERE name = 'White Frost') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
 CONCAT((SELECT id FROM Cards WHERE name = 'White Frost'), '_small.png')),
+((SELECT idCard FROM Cards WHERE name = 'Wild Hunt Hound') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
+CONCAT((SELECT id FROM Cards WHERE name = 'Wild Hunt Hound'), '_small.png')),
 ((SELECT idCard FROM Cards WHERE name = 'Wild Hunt Rider') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
 CONCAT((SELECT id FROM Cards WHERE name = 'Wild Hunt Rider'), '_small.png')),
 ((SELECT idCard FROM Cards WHERE name = 'Wild Hunt Warrior') , (SELECT idCategory FROM Categories WHERE name = 'normal'), null, 
