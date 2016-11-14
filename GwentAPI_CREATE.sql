@@ -1,5 +1,7 @@
 #Creation of the Gwent-api database
-CREATE DATABASE IF NOT EXISTS `gwentapi`;
+CREATE DATABASE IF NOT EXISTS `gwentapi`
+	DEFAULT CHARACTER SET utf8
+    DEFAULT COLLATE utf8_general_ci;
 USE `gwentapi`;
 
 
