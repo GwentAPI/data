@@ -16,7 +16,6 @@ DROP TABLE IF EXISTS Types;
 DROP TABLE IF EXISTS Rows;
 DROP TABLE IF EXISTS Factions;
 DROP TABLE IF EXISTS Rarities;
-DROP TABLE IF EXISTS Glyphs;
 DROP TABLE IF EXISTS Abilities;
 DROP TABLE IF EXISTS Patches;
 
@@ -115,31 +114,6 @@ UNIQUE (name);
 ALTER TABLE Rarities
 ADD CONSTRAINT Rarities_id_UK
 UNIQUE (id);
-
-
-
-
-#Table containing the different glyphs
-CREATE TABLE IF NOT EXISTS Glyphs (
-	idGlyph INT PRIMARY KEY AUTO_INCREMENT,
-	id VARCHAR(10) BINARY NOT NULL,
-    name VARCHAR(10) NOT NULL,
-    isWeatherGlyph BOOL NOT NULL DEFAULT FALSE,
-    text VARCHAR(70) NOT NULL,
-    INDEX Glyphs_id_index(id)
-)
-ENGINE=InnoDB;
-
-ALTER TABLE Glyphs
-ADD CONSTRAINT Glyphs_name_UK
-UNIQUE (name);
-
-ALTER TABLE Glyphs
-ADD CONSTRAINT Glyphs_id_UK
-UNIQUE (id);
-
-
-
 
 
 
