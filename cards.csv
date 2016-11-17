@@ -85,7 +85,7 @@ id,name,type,faction,strength,rarity,text,flavor
 "golem","Golem","Bronze","Monsters",5,"Common","When removed from the battlefield, spawn 2 Lesser Golem units.","Does not drink. Does not eat. Does walk, however. And fight."
 "grave-hag","Grave Hag","Silver","Monsters",1,"Legendary","Remove all non-Gold units in your graveyard from the game and gain 1 strength for each.","Their long tongues're for slurping marrow – and whipping prey."
 "gremist","Gremist","Silver","Skellige",5,"Epic","Remove 2 strength from 3 non-Gold units on your side. Gain 3 strength for each.","An archdruid, a master of alchemy, and the grumpiest old fart in the Isles."
-"griffin","Griffin","Bronze","Monsters",6,"Rare","Move a non-Gold unit from your opponent’s graveyard to your own.","Griffins like to toy with their prey. Eat 'em alive, piece by piece."
+"griffin","Griffin","Bronze","Monsters",6,"Rare","Move a non-Gold unit from your opponent's graveyard to your own.","Griffins like to toy with their prey. Eat 'em alive, piece by piece."
 "harald-the-cripple","Harald the Cripple","Leader","Skellige",NULL,"Epic","Remove 4 strength from all weakened opposing non-Gold units.","No one knows how he got his nickname – no one's dared to ask."
 "hawker-healer","Hawker Healer","Bronze","Scoia'tael",1,"Rare","Add 3 strength to all other non-Gold units on the row.","Sure, I'll patch you up. Gonna cost you though."
 "hawker-support","Hawker Support","Bronze","Scoia'tael",2,"Rare","Gain 3 strength whenever a Special Card is played.","Elf, dwarf, makes no difference – long as they've got coin."
