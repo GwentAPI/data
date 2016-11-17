@@ -1,5 +1,7 @@
 #Creation of the Gwent-api database
-CREATE DATABASE IF NOT EXISTS `gwentapi`;
+CREATE DATABASE IF NOT EXISTS `gwentapi`
+	DEFAULT CHARACTER SET utf8
+    DEFAULT COLLATE utf8_general_ci;
 USE `gwentapi`;
 
 
@@ -14,7 +16,6 @@ DROP TABLE IF EXISTS Types;
 DROP TABLE IF EXISTS Rows;
 DROP TABLE IF EXISTS Factions;
 DROP TABLE IF EXISTS Rarities;
-DROP TABLE IF EXISTS Glyphs;
 DROP TABLE IF EXISTS Abilities;
 DROP TABLE IF EXISTS Patches;
 
@@ -116,31 +117,6 @@ UNIQUE (id);
 
 
 
-
-#Table containing the different glyphs
-CREATE TABLE IF NOT EXISTS Glyphs (
-	idGlyph INT PRIMARY KEY AUTO_INCREMENT,
-	id VARCHAR(10) BINARY NOT NULL,
-    name VARCHAR(10) NOT NULL,
-    isWeatherGlyph BOOL NOT NULL DEFAULT FALSE,
-    text VARCHAR(70) NOT NULL,
-    INDEX Glyphs_id_index(id)
-)
-ENGINE=InnoDB;
-
-ALTER TABLE Glyphs
-ADD CONSTRAINT Glyphs_name_UK
-UNIQUE (name);
-
-ALTER TABLE Glyphs
-ADD CONSTRAINT Glyphs_id_UK
-UNIQUE (id);
-
-
-
-
-
-
 #Table containing the different card abilities
 CREATE TABLE IF NOT EXISTS Abilities (
 	idAbility INT PRIMARY KEY AUTO_INCREMENT,
@@ -208,10 +184,6 @@ CREATE TABLE IF NOT EXISTS Cards(
     INDEX Cards_id_index(id)
 )
 ENGINE=InnoDB;
-
-ALTER TABLE Cards
-ADD CONSTRAINT Cards_name_UK
-UNIQUE (name);
 
 ALTER TABLE Cards
 ADD CONSTRAINT Cards_id_UK
