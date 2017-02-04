@@ -51,17 +51,6 @@ VALUES
 ('small');
 
 
-#Glyphs
-INSERT INTO Glyphs
-(id, name, isWeatherGlyph, text)
-VALUES
-('spores', 'Spores', false, 'This glyph adds +4 to the Strength of all non-Hero Units.'),
-('fog', 'Fog', true, 'This glyph reduces the base Strength of non-Hero Units to 1.'),
-('inspire', 'Inspire', false, 'This glyph doubles the Strength of all non-Hero Units.'),
-('frost', 'Frost', true, 'This glyph reduces the base Strength of all non-Hero Units to 1.'),
-('rain', 'Rain', true, 'This glyph reduces the base Strength of non-Hero Units to 1.');
-
-
 #Abilities
 INSERT INTO Abilities
 (id, name, description)
