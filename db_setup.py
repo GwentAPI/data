@@ -64,7 +64,7 @@ def testIfFileExists():
 
 
 def drop_collections(collection):
-    print("drop")
+    print("Dropping the '" + collection + "' collection.")
     gwentDB[collection].drop()
 
 
@@ -107,6 +107,7 @@ def main():
             gwentDB[collection].create_index([('name', pymongo.ASCENDING)], unique=True)
             gwentDB[collection].create_index([('uuid', pymongo.ASCENDING)], unique=True)
     # Processing cards
+    print("Working on: cards")
     drop_collections("cards")
     with open(CARDS_FILE, encoding="utf-8", newline="\n") as f:
         for line in f:
