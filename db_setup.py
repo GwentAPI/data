@@ -8,8 +8,6 @@ import argparse
 import uuid
 import pymongo
 
-from unidecode import unidecode
-
 args = {}
 
 client = None
