@@ -12,40 +12,47 @@ from unidecode import unidecode
 
 args = {}
 
-client = pymongo.MongoClient()
-gwentDB = client.gwentapi
+client = None
+gwentDB = None
+
 SOURCE_FOLDER = "./"
 FILES = {"rarities": SOURCE_FOLDER + "rarities.jsonl", "groups": SOURCE_FOLDER + "groups.jsonl",
          "factions": SOURCE_FOLDER + "factions.jsonl", "categories": SOURCE_FOLDER + "categories.jsonl"}
 
 CARDS_FILE = SOURCE_FOLDER + "cards.jsonl"
 
-# Save a list of cards in a file in the json format.
-# filename is the name under which the file will be saved.
-# cardList is the list of cards.
-# The file is saved in the same path as where the script is ran from.
-def saveJson(filename, cardList):
-    filepath = os.path.join('./output/' + filename)
-    print("Saving %s cards to: %s" % (len(cardList), filepath))
-    with open(filepath + ".json", "w", encoding="utf-8", newline="\n") as f:
-        json.dump(cardList, f, ensure_ascii=False, sort_keys=True, indent=2, separators=(',', ': '))
-    with open(filepath + ".jsonl", "w", encoding="utf-8", newline="\n") as f:
-        isFirst = True
-        for card in cardList:
-            if not isFirst:
-                f.write("\n")
-            else:
-                isFirst = False
-            json.dump(card, f, ensure_ascii=False, sort_keys=True)
+
+# Set the command line parameters.
+def set_parser():
+    parser = argparse.ArgumentParser(description='This script allows you to perform the initial seed '
+                                                 'for the gwentapi db.')
+    parser.add_argument('-f', '--force', help='Disable safeguards and force the database to be dropped'
+                                              'before the insertion of the data.',
+                        action='store_true', required=False)
+    parser.add_argument('-u', '--username', help='Username used for authentication')
+    parser.add_argument('-p', '--password', help='Indicate that a password is needed for the authenticated user.'
+                                                 'Will start an interactive prompt.', action='store_true')
+    parser.add_argument('--host', help='The host to connect to.')
+    parser.add_argument('--port', help='Port to connect to.')
+    parser.add_argument('--authenticationDatabase', help='Database to authenticate to. Where your user account '
+                                                         'was created.')
+
+    global args
+    args = parser.parse_args()
+
+
+def is_insert_safe():
+    collections = gwentDB.collection_names(include_system_collections=False)
+    for collection, path in FILES.items():
+        if collection in collections:
+            return False
+    if "cards" in collections:
+        return False
 
 
 def insertUUID(item):
     id = str(uuid.uuid4())
     item["uuid"] = id
-
-
-def insertInitial():
-    pass
 
 
 def testIfFileExists():
@@ -56,17 +63,42 @@ def testIfFileExists():
     return True
 
 
-def dropCollections(collection):
+def drop_collections(collection):
+    print("drop")
     gwentDB[collection].drop()
 
 
 def main():
+    global gwentDB
+    global client
+
+    if args.host and not args.port:
+        client = pymongo.MongoClient(args.host, args.port)
+    elif args.host:
+        client = pymongo.MongoClient(args.host)
+    else:
+        client = pymongo.MongoClient('localhost')
+
+    if args.password and args.username and args.authenticationDatabase:
+        password = input()
+        gwentDB = client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
+    elif args.password and args.username:
+        password = input()
+        gwentDB = client.gwentapi.authenticate(args.username, password)
+    # No authentication
+    else:
+        gwentDB = client.gwentapi
+
     if not testIfFileExists():
+        return
+    if not args.force and not is_insert_safe():
+        print("The database already contain some collections.")
+        print("The operation was aborted.")
         return
 
     for collection, path in FILES.items():
         print("Working on: " + collection)
-        dropCollections(collection)
+        drop_collections(collection)
         with open(path, encoding="utf-8", newline="\n") as f:
             for line in f:
                 data = json.loads(line)
@@ -75,7 +107,7 @@ def main():
             gwentDB[collection].create_index([('name', pymongo.ASCENDING)], unique=True)
             gwentDB[collection].create_index([('uuid', pymongo.ASCENDING)], unique=True)
     # Processing cards
-    dropCollections("cards")
+    drop_collections("cards")
     with open(CARDS_FILE, encoding="utf-8", newline="\n") as f:
         for line in f:
             data = json.loads(line)
@@ -109,7 +141,7 @@ def main():
         gwentDB.cards.create_index([('uuid', pymongo.ASCENDING)], unique=True)
 
 if __name__ == '__main__':
-    # setParser()
+    set_parser()
     print("Starting")
     start = time.time()
     main()
