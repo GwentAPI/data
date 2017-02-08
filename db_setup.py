@@ -46,6 +46,7 @@ def is_insert_safe():
             return False
     if "cards" in collections:
         return False
+    return True
 
 
 def insertUUID(item):
@@ -78,9 +79,11 @@ def main():
         client = pymongo.MongoClient('localhost')
 
     if args.password and args.username and args.authenticationDatabase:
+        print("Password:")
         password = input()
         gwentDB = client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
     elif args.password and args.username:
+        print("Password:")
         password = input()
         gwentDB = client.gwentapi.authenticate(args.username, password)
     # No authentication
