@@ -78,17 +78,20 @@ def main():
     else:
         client = pymongo.MongoClient('localhost')
 
+    gwentDB = client.gwentapi
+    is_authenticate = False;
     if args.password and args.username and args.authenticationDatabase:
         print("Password:")
         password = input()
-        gwentDB = client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
+        is_authenticate = client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
     elif args.password and args.username:
         print("Password:")
         password = input()
-        gwentDB = client.gwentapi.authenticate(args.username, password)
-    # No authentication
-    else:
-        gwentDB = client.gwentapi
+        is_authenticate = client.gwentapi.authenticate(args.username, password)
+
+    if not is_authenticate:
+        print("The authentication failed.")
+        return
 
     if not testIfFileExists():
         return
