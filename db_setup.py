@@ -3,6 +3,7 @@
 
 import os.path
 import json
+import sys
 import time
 import argparse
 import uuid
@@ -79,15 +80,26 @@ def mongodb_conn():
         print("Could not connect to the server: %s" % e)
 
 
+# Untested on other platforms other than Linux.
+def getpass():
+    password = ""
+    if sys.platform != "win32":
+        os.system("stty -echo")
+        password = input("Enter Password: ")
+        os.system("stty echo")
+        print("")
+    else:
+        password = input("Enter Password: ")
+    return password
+
+
 def mongodb_auth():
     try:
         if args.password and args.username and args.authenticationDatabase:
-            print("Password:")
-            password = input()
+            password = getpass()
             client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
         elif args.password and args.username:
-            print("Password:")
-            password = input()
+            password = getpass()
             client.gwentapi.authenticate(args.username, password)
         return True
     except pymongo.errors.OperationFailure as e:
