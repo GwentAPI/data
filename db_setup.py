@@ -67,30 +67,42 @@ def drop_collections(collection):
     gwentDB[collection].drop()
 
 
+def mongodb_conn():
+    try:
+        if args.host and args.port:
+            return pymongo.MongoClient(args.host, args.port)
+        elif args.host:
+            return pymongo.MongoClient(args.host)
+        else:
+            return pymongo.MongoClient()
+    except pymongo.errors.ConnectionFailure as e:
+        print("Could not connect to the server: %s" % e)
+
+
+def mongodb_auth():
+    try:
+        if args.password and args.username and args.authenticationDatabase:
+            print("Password:")
+            password = input()
+            client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
+        elif args.password and args.username:
+            print("Password:")
+            password = input()
+            client.gwentapi.authenticate(args.username, password)
+        return True
+    except pymongo.errors.OperationFailure as e:
+        print("Error: %s" % e)
+        return False
+
+
 def main():
     global gwentDB
     global client
 
-    if args.host and not args.port:
-        client = pymongo.MongoClient(args.host, args.port)
-    elif args.host:
-        client = pymongo.MongoClient(args.host)
-    else:
-        client = pymongo.MongoClient('localhost')
+    client = mongodb_conn()
 
     gwentDB = client.gwentapi
-    is_authenticate = False;
-    if args.password and args.username and args.authenticationDatabase:
-        print("Password:")
-        password = input()
-        is_authenticate = client.gwentapi.authenticate(args.username, password, source=args.authenticationDatabase)
-    elif args.password and args.username:
-        print("Password:")
-        password = input()
-        is_authenticate = client.gwentapi.authenticate(args.username, password)
-
-    if not is_authenticate:
-        print("The authentication failed.")
+    if not mongodb_auth():
         return
 
     if not testIfFileExists():
