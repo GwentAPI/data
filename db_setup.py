@@ -141,8 +141,8 @@ def main():
         for line in f:
             data = json.loads(line)
             for variation in data["variations"]:
-                # Empty fullsizeImageUrl until we are ready to deal with it
-                variation["art"]["fullsizeImageUrl"] = ""
+                variation["art"]["fullsizeImage"] = data["key"] + "_full.png"
+                variation["art"]["thumbnailImage"] = data["key"] + "_thumbnail.png"
             data.pop("key", None)
             # Manual reference for faction
             if "faction" in data:
