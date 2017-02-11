@@ -47,6 +47,8 @@ def is_insert_safe():
             return False
     if "cards" in collections:
         return False
+    if "variations" in collections:
+        return False
     return True
 
 
@@ -137,6 +139,7 @@ def main():
     # Processing cards
     print("Working on: cards")
     drop_collections("cards")
+    drop_collections("variations")
     with open(CARDS_FILE, encoding="utf-8", newline="\n") as f:
         for line in f:
             data = json.loads(line)
@@ -154,20 +157,25 @@ def main():
                 data["group"] = data.pop("type")
                 group_id = gwentDB.groups.find_one({"name": data["group"]})["_id"]
                 data["group_id"] = group_id
-            for variation in data["variations"]:
-                if "rarity" in variation:
-                    rarity_id = gwentDB.rarities.find_one({"name": variation["rarity"]})["_id"]
-                    variation["rarity_id"] = rarity_id
             if "categories" in data:
                 categories_id = list()
                 for category in data["categories"]:
                     category_id = gwentDB.categories.find_one({"name": category})["_id"]
                     categories_id.append(category_id)
                 data["categories_id"] = categories_id
+
             insertUUID(data)
-            gwentDB.cards.insert_one(data)
+            variations = data.pop("variations")
+            card_id = gwentDB.cards.insert_one(data).inserted_id
+            for variation in variations:
+                if "rarity" in variation:
+                    rarity_id = gwentDB.rarities.find_one({"name": variation["rarity"]})["_id"]
+                    variation["rarity_id"] = rarity_id
+                    variation["card_id"] = card_id
+            gwentDB.variations.insert_many(variations)
         gwentDB.cards.create_index([('name', pymongo.ASCENDING)], unique=True)
         gwentDB.cards.create_index([('uuid', pymongo.ASCENDING)], unique=True)
+        gwentDB.variations.create_index([('card_id', pymongo.ASCENDING)])
 
 if __name__ == '__main__':
     set_parser()
