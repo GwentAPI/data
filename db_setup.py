@@ -172,10 +172,12 @@ def main():
                     rarity_id = gwentDB.rarities.find_one({"name": variation["rarity"]})["_id"]
                     variation["rarity_id"] = rarity_id
                     variation["card_id"] = card_id
+                    insertUUID(variation)
             gwentDB.variations.insert_many(variations)
         gwentDB.cards.create_index([('name', pymongo.ASCENDING)], unique=True)
         gwentDB.cards.create_index([('uuid', pymongo.ASCENDING)], unique=True)
         gwentDB.variations.create_index([('card_id', pymongo.ASCENDING)])
+        gwentDB.variations.create_index([('uuid', pymongo.ASCENDING)])
 
 if __name__ == '__main__':
     set_parser()
