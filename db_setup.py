@@ -53,7 +53,7 @@ def is_insert_safe():
 
 
 def insertUUID(item):
-    id = str(uuid.uuid4())
+    id = uuid.uuid4().bytes
     item["uuid"] = id
 
 
