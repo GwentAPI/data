@@ -8,6 +8,7 @@ import time
 import argparse
 import uuid
 import pymongo
+import datetime
 
 args = {}
 
@@ -133,6 +134,7 @@ def main():
             for line in f:
                 data = json.loads(line)
                 insertUUID(data)
+                data['last_modified'] = datetime.datetime.utcnow()
                 gwentDB[collection].insert_one(data)
             gwentDB[collection].create_index([('name', pymongo.ASCENDING)], unique=True)
             gwentDB[collection].create_index([('uuid', pymongo.ASCENDING)], unique=True)
@@ -165,7 +167,9 @@ def main():
                 data["categories_id"] = categories_id
 
             insertUUID(data)
+            data['last_modified'] = datetime.datetime.utcnow()
             variations = data.pop("variations")
+
             card_id = gwentDB.cards.insert_one(data).inserted_id
             for variation in variations:
                 if "rarity" in variation:
@@ -173,6 +177,7 @@ def main():
                     variation["rarity_id"] = rarity_id
                     variation["card_id"] = card_id
                     insertUUID(variation)
+                    variation['last_modified'] = datetime.datetime.utcnow()
             gwentDB.variations.insert_many(variations)
         gwentDB.cards.create_index([('name', pymongo.ASCENDING)], unique=True)
         gwentDB.cards.create_index([('uuid', pymongo.ASCENDING)], unique=True)
